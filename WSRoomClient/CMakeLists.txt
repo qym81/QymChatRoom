@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.19)
 project(WSRoomClient LANGUAGES CXX)
 
+if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
+
 find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets WebSockets)
 
 qt_standard_project_setup()
