@@ -82,7 +82,7 @@ void ChatServer::OnMessages(ConnectionHdl hdl, MessagePtr msg)
 			{
 				if (text == client.second.name)
 				{
-					error = "[R]【错误】该昵称已被占用：" + text;
+					error = "[R]【错误】该昵称已被占用：" + text + "请重新输入名字！";
 					break;
 				}
 			}
@@ -147,7 +147,7 @@ bool ChatServer::GetName(ConnectionHdl hdl, std::string& name)
 
 	if (it != this->m_clients.end())
 	{
-		name = this->m_clients[hdl].name;
+		name = it->second.name;
 		return true;
 	}
 	return false;
@@ -156,7 +156,13 @@ bool ChatServer::GetName(ConnectionHdl hdl, std::string& name)
 std::string ChatServer::GetCmd()
 {
 	std::string CmdStr;
-	CmdStr += "【功能提示】可用指令:\n";
+	CmdStr += "[G]【功能提示】可用指令:\n";
+	/*CmdStr += "[G]GetCmd / Command		查询可用指令\n";
+	CmdStr += "[G]GetWho				查询房间人员\n";
+	CmdStr += "[G]GetMe				查看个人面板\n";
+	CmdStr += "[G]tell					私聊格式:tell [用户名字] [私聊消息]\n";
+	CmdStr += "[G]cls / clear			清屏\n";
+	CmdStr += "[G]exit / quit			退出聊天室\n";*/
 	CmdStr += "GetCmd / Command		查询可用指令\n";
 	CmdStr += "GetWho				查询房间人员\n";
 	CmdStr += "GetMe				查看个人面板\n";
@@ -181,7 +187,7 @@ std::string ChatServer::GetMe(ConnectionHdl hdl)
 
 	char buf[128] = { 0 };
 	std::snprintf(buf, sizeof(buf),
-		"-------\n【个人面板】\n昵称：%s\n在线时长：%02d:%02d:%02d (时:分:秒)\n-------",
+		"[G]-------\n【个人面板】\n昵称：%s\n在线时长：%02d:%02d:%02d (时:分:秒)\n-----------------",
 		it->second.name.c_str(), hour, min, seconds);
 	return std::string(buf);
 }
@@ -250,14 +256,14 @@ void ChatServer::handleTell(ConnectionHdl hdl, const std::string& from, const st
 	size_t nickStart = text.find_first_not_of(" ", 5);
 	if (nickStart == std::string::npos)
 	{
-		SendTo(hdl, "【错误】私聊格式：tell [用户名字] [私聊消息]");
+		SendTo(hdl, "[R]【错误】私聊格式：tell [用户名字] [私聊消息]");
 		return;
 	}
 
 	size_t contentStart = text.find(" ", nickStart);
 	if (contentStart == std::string::npos)
 	{
-		SendTo(hdl, "【错误】请输入私聊内容");
+		SendTo(hdl, "[R]【错误】请输入私聊内容");
 		return;
 	}
 
@@ -287,6 +293,6 @@ void ChatServer::handleTell(ConnectionHdl hdl, const std::string& from, const st
 	}
 
 	SendTo(targetHdl, "【私聊】" + from + "->你：" + content);
-	SendTo(hdl, "【私聊】你->" + from + "：" + content);
+	SendTo(hdl, "【私聊】你->" + target + "：" + content);
 	std::cout << from << "向" << target << "发送了一条私聊消息~" << "\n";
 }

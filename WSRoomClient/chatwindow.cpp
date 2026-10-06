@@ -14,19 +14,19 @@ ChatWindow::ChatWindow(QWidget *parent)
     this->m_chatView->setStyleSheet(
         "background:#1e1e1e;"
         "color:#e0e0e0;"
-        "font-size:18px;"
+        "font-size:16pt;"
         "border:none;"
     );
 
     // Input
     this->m_input = new QLineEdit(this);
     this->m_input->setPlaceholderText("输入消息，回车发送...");
-    this->m_input->setStyleSheet("font-size:14px; padding:6px;");
+    this->m_input->setStyleSheet("font-size:11pt; padding:6px;");
 
     // Send Button
     this->m_sendBtn = new QPushButton(this);
     this->m_sendBtn->setText("发送");
-    this->m_sendBtn->setStyleSheet("font-size:14px; padding:6px 16px;");
+    this->m_sendBtn->setStyleSheet("font-size:11pt; padding:6px 16px;");
 
     // Layout
     auto* hbox = new QHBoxLayout(); // No Bind
@@ -73,7 +73,7 @@ void ChatWindow::OnDisconnected()
     m_sendBtn->setEnabled(false);
 }
 
-void ChatWindow::OnMessages(const QString& msg)
+void ChatWindow::OnTextMessage(const QString& msg)
 {
     if(msg == "DO_CLS")
     {
@@ -91,7 +91,7 @@ void ChatWindow::ConnectTo(const QString &url, const QString &nickname)
 
     connect(this->m_ws, &QWebSocket::connected,             this, &ChatWindow::OnConnected);
     connect(this->m_ws, &QWebSocket::disconnected,          this, &ChatWindow::OnDisconnected);
-    connect(this->m_ws, &QWebSocket::textMessageReceived,   this, &ChatWindow::OnMessages);
+    connect(this->m_ws, &QWebSocket::textMessageReceived,   this, &ChatWindow::OnTextMessage);
 
     this->AppendLine("连接 " + url + " 中...", Qt::yellow);
     this->m_ws->open(QUrl(url));

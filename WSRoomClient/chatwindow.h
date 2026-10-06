@@ -10,6 +10,9 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QInputDialog>
+#include <QDateTime>
+#include <QTextCursor>
+#include <QColor>
 
 class ChatWindow : public QMainWindow
 {
@@ -25,7 +28,6 @@ public:
     void OnReturnPressed();
     void OnConnected();
     void OnDisconnected();
-    void OnMessages(const QString& msg);
     void ConnectTo(const QString& url, const QString& nickname);
 
 private:
@@ -38,6 +40,5 @@ private:
     QLineEdit* m_input;
     QPushButton* m_sendBtn;
     QString m_nickname;
-    bool is_loggedIn = false;
 };
 #endif // CHATWINDOW_H
