@@ -157,7 +157,7 @@ std::string ChatServer::GetCmd()
 {
 	std::string CmdStr;
 	CmdStr += "[G]【功能提示】可用指令:\n";
-	/*CmdStr += "[G]GetCmd / Command		查询可用指令\n";
+	/*CmdStr += "[G]GetCmd / command		查询可用指令\n";
 	CmdStr += "[G]GetWho				查询房间人员\n";
 	CmdStr += "[G]GetMe				查看个人面板\n";
 	CmdStr += "[G]tell					私聊格式:tell [用户名字] [私聊消息]\n";
