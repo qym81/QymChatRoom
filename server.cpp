@@ -22,13 +22,7 @@ int main()
 {
     SetupConsoleUtf8();
 
-    const char* port_env = std::getenv("PORT");
-    std::uint16_t port = 9527;
-    if (port_env != nullptr) {
-        port = static_cast<std::uint16_t>(std::stoi(port_env));
-    }
-
     ChatServer server;
-    server.Run(port);
+    server.Run(9527);
     return 0;
 }
