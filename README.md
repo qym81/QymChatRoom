@@ -1,5 +1,3 @@
-下面是精简后的 `README.md`，vcpkg 部分只保留两条命令，不再教如何配置：
-
 # QymChatRoom
 
 A simple chat room using **websocketpp** (server) and **QWebSocket** (client).
